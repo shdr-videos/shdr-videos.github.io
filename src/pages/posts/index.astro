@@ -1,0 +1,256 @@
+---
+import Icon from '../../components/Icon.astro';
+import PostRow from '../../components/PostRow.astro';
+import Layout from '../../layouts/Layout.astro';
+import { TOTAL_POSTS } from '../../data/site';
+import { filterTree, posts } from '../../lib/posts';
+
+const tree = filterTree();
+---
+<Layout title="Статьи и материалы" description="Статьи и видео Школы двигательного развития: младенцы, особые дети и взрослые, мелкая моторика, позиционирование, стопы и обувь.">
+  <section class="container posts-page">
+    <header class="posts-page__head">
+      <h1>Статьи и материалы</h1>
+      <p class="posts-page__note">В превью показаны {posts.length} материалов из {TOTAL_POSTS}. Статьи открываются на текущем сайте.</p>
+    </header>
+
+    <div class="posts-layout">
+      <details class="filters" id="filters">
+        <summary class="filters__toggle btn btn--secondary">
+          <Icon name="filter" /> Темы <span class="filters__active" data-active-label></span>
+        </summary>
+        <nav aria-label="Темы статей">
+          <ul class="filters__list">
+            <li><a class="filter" href="/posts/" data-topic-link="" aria-current="true">Все материалы <span class="filter__count">{posts.length}</span></a></li>
+            {tree.map((d) => (
+              <li class="filters__group" data-group={d.id}>
+                <a class="filter filter--parent" href={`/posts/?topic=${d.id}`} data-topic-link={d.id}>{d.label} <span class="filter__count">{d.count}</span></a>
+                {d.children.length > 0 && (
+                  <ul class="filters__children">
+                    {d.children.map((c) => (
+                      <li><a class="filter" href={`/posts/?topic=${encodeURIComponent(c.id)}`} data-topic-link={c.id} data-parent={d.id}>{c.label} <span class="filter__count">{c.count}</span></a></li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
+
+      <div class="results">
+        <form class="search" role="search" data-search-form>
+          <label class="visually-hidden" for="post-search">Поиск по статьям</label>
+          <span class="search__icon"><Icon name="search" /></span>
+          <input id="post-search" type="search" name="q" placeholder="Поиск: ходьба, обувь, письмо…" autocomplete="off" enterkeyhint="search" />
+        </form>
+
+        <p class="results__status" role="status" data-status>Показаны все материалы: {posts.length}</p>
+        <button type="button" class="btn btn--ghost results__reset" data-reset hidden><Icon name="close" /> Сбросить</button>
+
+        <ul class="results__list" data-list>
+          {posts.map((post) => <PostRow post={post} heading="h2" />)}
+        </ul>
+
+        <div class="results__empty" data-empty hidden>
+          <h2>Ничего не нашлось</h2>
+          <p>Попробуйте другое слово или посмотрите все материалы.</p>
+          <button type="button" class="btn btn--secondary" data-reset>Показать все материалы</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .posts-page { padding-block: clamp(2rem, 1.5rem + 3vw, 4rem) var(--section-gap); }
+  .posts-page__head { margin-bottom: var(--space-6); }
+  .posts-page__head h1 { font-size: var(--text-2xl); }
+  .posts-page__note { margin-top: var(--space-3); color: var(--color-ink-soft); }
+
+  .posts-layout { display: grid; gap: var(--space-4); }
+
+  .filters__toggle { width: 100%; justify-content: flex-start; list-style: none; }
+  .filters__toggle::-webkit-details-marker { display: none; }
+  .filters__active { color: var(--color-accent-strong); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .filters__list { padding-top: var(--space-3); }
+
+  .filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: var(--target);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    line-height: 1.3;
+    text-decoration: none;
+  }
+  .filter:hover { background: var(--color-surface-strong); color: var(--color-ink); }
+  .filter--parent { font-weight: 500; }
+  .filter__count { color: var(--color-ink-soft); font-size: var(--text-xs); font-weight: 400; }
+  .filter[aria-current='true'] { background: var(--color-ink); color: #fff; }
+  .filter[aria-current='true'] .filter__count { color: #dfe6f1; }
+
+  .filters__children { display: none; padding-left: var(--space-3); margin-block: var(--space-1) var(--space-2); }
+  .filters__group.is-open .filters__children { display: block; }
+
+  .search { position: relative; }
+  .search__icon { position: absolute; left: var(--space-3); top: 50%; transform: translateY(-50%); display: grid; color: var(--color-ink-soft); pointer-events: none; }
+  .search input {
+    width: 100%;
+    min-height: 52px;
+    padding: var(--space-2) var(--space-3) var(--space-2) 2.75rem;
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+  }
+  .search input::placeholder { color: var(--color-ink-soft); opacity: 1; }
+  .search input:hover { border-color: var(--color-ink); }
+
+  .results__status { display: inline-block; margin-top: var(--space-4); margin-right: var(--space-2); color: var(--color-ink-soft); font-size: var(--text-sm); }
+  .results__reset { font-size: var(--text-sm); }
+  .results__reset[hidden] { display: none; }
+  .results__list { margin-top: var(--space-3); }
+  .results__list[hidden] { display: none; }
+  .results__empty { padding-block: var(--space-7); border-top: 1px solid var(--color-border); margin-top: var(--space-3); }
+  .results__empty[hidden] { display: none; }
+  .results__empty h2 { font-size: var(--text-xl); }
+  .results__empty p { margin-block: var(--space-2) var(--space-4); color: var(--color-ink-soft); }
+
+  @media (min-width: 1024px) {
+    .posts-layout { grid-template-columns: 19rem minmax(0, 1fr); gap: var(--space-7); align-items: start; }
+    .filters { position: sticky; top: calc(var(--header-height) + var(--space-4)); max-height: calc(100dvh - var(--header-height) - var(--space-6)); overflow-y: auto; padding: 3px; }
+    .filters__toggle { display: none; }
+    .filters__list { padding-top: 0; }
+  }
+</style>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLElement>('[data-list] > li')];
+  const input = document.getElementById('post-search') as HTMLInputElement;
+  const status = document.querySelector('[data-status]')!;
+  const list = document.querySelector<HTMLElement>('[data-list]')!;
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  const inlineReset = document.querySelector<HTMLElement>('.results__reset')!;
+  const activeLabel = document.querySelector('[data-active-label]')!;
+  const filters = document.getElementById('filters') as HTMLDetailsElement;
+  const filterLinks = [...document.querySelectorAll<HTMLAnchorElement>('.filter[data-topic-link]')];
+  const baseTitle = document.title;
+  const desktop = matchMedia('(min-width: 1024px)');
+
+  const normalize = (s: string) => s.toLowerCase().replaceAll('ё', 'е').trim();
+  const plural = (n: number) => {
+    const a = n % 100, b = n % 10;
+    if (a > 10 && a < 20) return 'материалов';
+    if (b === 1) return 'материал';
+    return b > 1 && b < 5 ? 'материала' : 'материалов';
+  };
+
+  function readState() {
+    const params = new URLSearchParams(location.search);
+    return { topic: params.get('topic') ?? '', q: params.get('q') ?? '' };
+  }
+
+  function buildUrl(topic: string, q: string) {
+    const params = new URLSearchParams();
+    if (topic) params.set('topic', topic);
+    if (q) params.set('q', q);
+    const query = params.toString();
+    return query ? `${location.pathname}?${query}` : location.pathname;
+  }
+
+  function render(topic: string, q: string) {
+    const known = filterLinks.some((l) => l.dataset.topicLink === topic);
+    const activeTopic = known ? topic : '';
+    const query = normalize(q);
+    let shown = 0;
+    for (const item of items) {
+      const inTopic = !activeTopic || item.dataset.topics!.split('|').includes(activeTopic);
+      const inSearch = !query || item.dataset.search!.includes(query);
+      item.hidden = !(inTopic && inSearch);
+      if (!item.hidden) shown++;
+    }
+
+    let activeName = '';
+    let activeParent = '';
+    for (const link of filterLinks) {
+      const isActive = link.dataset.topicLink === activeTopic;
+      if (isActive) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+      if (isActive && activeTopic) {
+        activeName = link.firstChild!.textContent!.trim();
+        activeParent = link.dataset.parent ?? activeTopic;
+      }
+    }
+    document.querySelectorAll<HTMLElement>('.filters__group').forEach((g) => {
+      g.classList.toggle('is-open', g.dataset.group === activeParent);
+    });
+
+    list.hidden = shown === 0;
+    empty.hidden = shown !== 0;
+    inlineReset.hidden = !(activeTopic || query) || shown === 0;
+    activeLabel.textContent = activeName ? `· ${activeName}` : '';
+
+    const scope = [activeName && `«${activeName}»`, query && `поиск «${q.trim()}»`].filter(Boolean).join(', ');
+    status.textContent = scope
+      ? `${scope}: ${shown} ${plural(shown)}`
+      : `Показаны все материалы: ${shown}`;
+    document.title = activeName ? `${activeName} — ${baseTitle}` : baseTitle;
+  }
+
+  function syncFromUrl() {
+    const { topic, q } = readState();
+    input.value = q;
+    render(topic, q);
+  }
+
+  function setTopic(topic: string, toResults: boolean) {
+    history.pushState(null, '', buildUrl(topic, input.value.trim()));
+    render(topic, input.value);
+    if (toResults && !desktop.matches) {
+      filters.open = false;
+      document.querySelector('.results')!.scrollIntoView({ block: 'start' });
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    const event = e as MouseEvent;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    const link = (e.target as Element).closest<HTMLAnchorElement>('a[data-topic-link]');
+    if (link) {
+      e.preventDefault();
+      setTopic(link.dataset.topicLink!, true);
+      return;
+    }
+    if ((e.target as Element).closest('[data-reset]')) {
+      input.value = '';
+      setTopic('', false);
+      input.focus();
+    }
+  });
+
+  input.addEventListener('input', () => {
+    const { topic } = readState();
+    history.replaceState(null, '', buildUrl(topic, input.value.trim()));
+    render(topic, input.value);
+  });
+  document.querySelector('[data-search-form]')!.addEventListener('submit', (e) => e.preventDefault());
+
+  window.addEventListener('popstate', syncFromUrl);
+
+  // На десктопе темы всегда раскрыты; на мобильном свёрнуты, чтобы не занимать экран
+  const syncDisclosure = () => { filters.open = desktop.matches; };
+  desktop.addEventListener('change', syncDisclosure);
+  syncDisclosure();
+
+  syncFromUrl();
+  if (new URLSearchParams(location.search).has('search')) {
+    history.replaceState(null, '', buildUrl(readState().topic, input.value.trim()));
+    input.focus();
+  }
+</script>

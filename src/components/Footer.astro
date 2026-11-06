@@ -1,0 +1,56 @@
+---
+import { legal, nav } from '../data/site';
+
+const columns = nav.flatMap((item) => (item.href ? [{ label: item.fullLabel ?? item.label, href: item.href }] : []));
+---
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <p class="footer__name">Школа двигательного развития</p>
+      <p class="footer__about">Образовательная программа <a href="http://www.ccp.org.ru/">Центра лечебной педагогики</a>. Существует с 2017 года.</p>
+    </div>
+    <nav aria-label="Разделы сайта">
+      <ul class="footer__links">
+        {columns.map((c) => <li><a href={c.href}>{c.label}</a></li>)}
+      </ul>
+    </nav>
+    <div>
+      <ul class="footer__links">
+        <li><a href={legal.privacy}>Политика в отношении обработки персональных данных</a></li>
+        <li><a href={legal.offer}>Публичный договор-оферта по оказанию платных образовательных услуг</a></li>
+      </ul>
+    </div>
+    <p class="footer__disclaimer">{legal.disclaimer}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: auto;
+    padding-block: var(--space-7);
+    background: var(--color-ink);
+    color: #dfe6f1;
+    font-size: var(--text-sm);
+  }
+  .footer a { color: #fff; }
+  .footer a:hover { color: #fff; }
+  .footer :focus-visible { outline-color: #fff; }
+  .footer__grid { display: grid; gap: var(--space-6); }
+  .footer__name { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: var(--space-2); }
+  .footer__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding-block: var(--space-1);
+    line-height: 1.35;
+  }
+  .footer__disclaimer {
+    grid-column: 1 / -1;
+    padding-top: var(--space-5);
+    border-top: 1px solid rgb(255 255 255 / 0.2);
+    max-width: 60rem;
+  }
+  @media (min-width: 768px) {
+    .footer__grid { grid-template-columns: 1.3fr 1fr 1.3fr; }
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Название товара, чтобы у ссылок было понятное имя вне контекста */
+  product: string;
+  stores: { name: string; href: string }[];
+}
+
+const { product, stores } = Astro.props;
+---
+<div class="buy">
+  {stores.map((store, i) => (
+    <a class:list={['btn', i === 0 ? 'btn--primary' : 'btn--secondary']} href={store.href} aria-label={`Купить «${product}» на ${store.name}`}>
+      Купить на {store.name} <Icon name="external" />
+    </a>
+  ))}
+</div>
+
+<style>
+  .buy { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  @media (max-width: 479px) {
+    .buy :global(.btn) { width: 100%; }
+  }
+</style>

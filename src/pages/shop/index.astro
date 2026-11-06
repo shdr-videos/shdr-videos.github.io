@@ -1,0 +1,217 @@
+---
+import { Image } from 'astro:assets';
+import BuyLinks from '../../components/BuyLinks.astro';
+import Layout from '../../layouts/Layout.astro';
+import reader from '../../assets/brand/reader.jpg';
+import book from '../../assets/shop/book.jpg';
+import lecture from '../../assets/shop/lecture.jpg';
+import propisi1 from '../../assets/shop/propisi-1.jpg';
+import propisi2 from '../../assets/shop/propisi-2.jpg';
+---
+<Layout title="Магазин" description="Книги, пособия и видеолекции от команды Школы двигательного развития.">
+  <section class="shop-hero notebook">
+    <div class="container shop-hero__row">
+      <div>
+        <h1>Магазин ШДР</h1>
+        <p class="shop-hero__lead">Книги, пособия и видеолекции от нашей команды. Покупка проходит на площадках Boosty, Patreon и Ридеро.</p>
+        <ul class="shop-hero__index">
+          <li><a href="#book">Младенцы в движении</a></li>
+          <li><a href="#propisi">Предпрописи</a></li>
+          <li><a href="#lecture">Работа за столом</a></li>
+        </ul>
+      </div>
+      <Image src={reader} alt="" width={200} class="shop-hero__art" />
+    </div>
+  </section>
+
+  <div class="container products">
+    <article class="product" id="book">
+      <div class="product__cover">
+        <Image src={book} alt="Обложка книги «Младенцы в движении»" width={400} sizes="(min-width: 768px) 300px, 60vw" />
+      </div>
+      <div class="product__body">
+        <p class="eyebrow">Книга</p>
+        <h2>Младенцы в движении</h2>
+        <p class="product__subtitle">Иллюстрированный гид по развитию моторики</p>
+        <ul class="facts">
+          <li>Более 800 реальных фотографий</li>
+          <li>Для родителей, специалистов, волонтёров</li>
+        </ul>
+        <BuyLinks
+          product="Младенцы в движении"
+          stores={[
+            { name: 'Boosty', href: 'https://boosty.to/shdr/posts/e87514ba-9dd7-46a1-bfae-e7c871fba551' },
+            { name: 'Patreon', href: 'https://www.patreon.com/Shdr/posts/mladentsy-v-171871229' },
+          ]}
+        />
+        <div class="product__text">
+          <p>Формирование крупной моторики у маленьких детей происходит по-разному и с разной скоростью. Иногда ребенок осваивает двигательные навыки сам, в других случаях нужна помощь родителей или поддержка специалистов. Опираясь на тридцатилетний опыт, авторы рассказывают, как поддержать естественное двигательное развитие младенца.</p>
+          <details class="more">
+            <summary>Подробнее о книге</summary>
+            <p>В книге подробно описаны игры и упражнения, которые помогут малышу освоить или усовершенствовать тот или иной моторный навык. Читатель сможет проследить путь ребенка от первых непроизвольных движений до сложных умений, требующих ловкости, согласованности и тренировки.</p>
+            <p>Книга содержит более 800 реальных фотографий. Она адресована родителям, специалистам, волонтёрам и всем, кто имеет дело с детьми раннего возраста.</p>
+          </details>
+        </div>
+        <p class="credits">Леонид Зельдин, Регина Нахимовская. Иллюстрации – Илья Ларин, Ольга Моро. Верстка – Евгений Тычко.</p>
+      </div>
+    </article>
+
+    <article class="product product--set" id="propisi">
+      <div class="set-head">
+        <p class="eyebrow">Набор тетрадей</p>
+        <h2>Предпрописи</h2>
+        <p class="product__subtitle">Набор тетрадей для совместного рисования</p>
+        <p class="set-head__text">Набор тетрадей для последовательного развития рисунка от первых штрихов до начала обучения курсивному письму в школе. Каждая следующая тетрадь опирается на навыки, усвоенные ранее, и ставит перед ребенком новые, плавно усложняющиеся задачи. Пособие включает бланки для совместного рисования и рекомендации для взрослого по организации занятий.</p>
+        <p class="credits">Баранова Ю.И., Егорова Л.В., Зельдин Л.М.</p>
+      </div>
+
+      <div class="parts">
+        <section class="part" aria-labelledby="part-1">
+          <Image src={propisi1} alt="Обложка тетради «Совместное рисование», часть 1" width={720} sizes="(min-width: 768px) 560px, 100vw" class="part__cover" />
+          <div class="part__body">
+            <h3 id="part-1">Часть 1</h3>
+            <ul class="facts"><li>38 страниц</li><li>Начните с этой тетради</li></ul>
+            <p>Первая часть нашего пособия знакомит ребенка с возможностью начертания штрихов определённой формы через подражание действиям взрослого. Пока это самые простые формы: прямые линии, дуги и замкнутые контуры.</p>
+            <BuyLinks
+              product="Предпрописи, часть 1"
+              stores={[
+                { name: 'Boosty', href: 'https://boosty.to/shdr/posts/134addd6-7151-4432-8eb1-37445fd1a58d' },
+                { name: 'Ридеро', href: 'https://ridero.ru/books/sovmestnoe_risovanie/' },
+              ]}
+            />
+            <details class="more">
+              <summary>Кому подойдёт и чему научит</summary>
+              <p>Тетрадь годится в качестве первого пособия для подготовки к письму. Она подойдёт детям, которые умеют (и согласны!) подражать простым предметным действиям взрослого, но рисовать пока не умеют или боятся, либо рисуют только каляки-маляки.</p>
+              <p>Также эти задания будут полезны детям, которые могут рисовать, но делают это медленными и неуверенными штрихами, со слабым нажимом или дрожащей линией.</p>
+              <p>Работа с этой тетрадью поможет освоить ряд важнейших навыков, необходимых для развития рисунка и освоения письма, таких как: наблюдение за рисованием взрослого; подражание в рисовании; управление направлением штриха; крупное начертание простых штрихов заданной формы, их различение; освоение свободного движения в рисунке с достаточной скоростью и нажимом.</p>
+              <p>Кроме того, рисование простых штрихов позволяет получить опыт успешности в рисовании, необходимый в дальнейших занятиях и в творчестве.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="part" aria-labelledby="part-2">
+          <Image src={propisi2} alt="Обложка тетради «Совместное рисование», часть 2" width={720} sizes="(min-width: 768px) 560px, 100vw" class="part__cover" />
+          <div class="part__body">
+            <h3 id="part-2">Часть 2</h3>
+            <ul class="facts"><li>40 страниц</li><li>После освоения части 1</li></ul>
+            <p>Вторая часть пособия знакомит ребенка с возможностью схематично изобразить предмет с помощью элементов, которые он освоил в первой части. Нам предстоит делить лист пополам, чтобы каждый рисовал предмет сам на своей половине.</p>
+            <BuyLinks
+              product="Предпрописи, часть 2"
+              stores={[
+                { name: 'Boosty', href: 'https://boosty.to/shdr/posts/20d96c99-0eab-4200-8e2c-82d599f6b9b2' },
+                { name: 'Ридеро', href: 'https://ridero.ru/books/sovmestnoe_risovanie_predpropisi_chast_2/' },
+              ]}
+            />
+            <details class="more">
+              <summary>Кому подойдёт и чему научит</summary>
+              <p>Беритесь за эту тетрадь, только если ребенок успешно освоил материал первой части пособия.</p>
+              <p>Занятия в этой тетради помогут почувствовать радость от первых собственных рисунков, совершив переход от совместного рисования к самостоятельному. Умения, освоенные при работе с первой частью пособия, теперь автоматизируются и перестают требовать существенных усилий, освобождая ресурс для дальнейшего развития и творчества.</p>
+            </details>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <article class="product" id="lecture">
+      <div class="product__cover">
+        <Image src={lecture} alt="Обложка видеолекции «Работа за столом»" width={400} sizes="(min-width: 768px) 300px, 60vw" />
+      </div>
+      <div class="product__body">
+        <p class="eyebrow">Видеолекция + pdf-приложение</p>
+        <h2>Работа за столом. Как сберечь здоровье?</h2>
+        <ul class="facts">
+          <li>Ролик – 42 минуты</li>
+          <li>Pdf-приложение – 46 страниц</li>
+          <li>Для взрослых и школьников</li>
+        </ul>
+        <BuyLinks
+          product="Работа за столом"
+          stores={[
+            { name: 'Boosty', href: 'https://boosty.to/shdr/posts/05b489a2-430d-4b5f-b50b-e1e6a965331d' },
+            { name: 'Patreon', href: 'https://www.patreon.com/Shdr/posts/rabota-za-stolom-150174883' },
+          ]}
+        />
+        <div class="product__text">
+          <p>Проводите много времени за столом? Замечаете напряжение в спине и шее, нарушения осанки? Лекция от Школы двигательного развития поможет сделать рабочее место эргономичным и комфортным! Советы актуальны как для взрослых, так и для школьников.</p>
+          <details class="more">
+            <summary>Подробнее о лекции</summary>
+            <p>Материал разделен на три части: как подобрать стул, как подобрать стол, разбор примеров.</p>
+            <p>Лекция подготовлена специалистами Школы двигательного развития на основании многолетнего опыта и включает авторские разработки.</p>
+            <p>Приобретая ролик, вы получаете в подарок pdf-файл со всей информацией, который позволит легко вернуться к ней в любой момент.</p>
+          </details>
+        </div>
+        <p class="credits">Регина Нахимовская, Леонид Зельдин. Монтаж и верстка – Евгений Тычко.</p>
+      </div>
+    </article>
+
+    <p class="copyright">Копирование и распространение материалов запрещено.</p>
+  </div>
+</Layout>
+
+<style>
+  .shop-hero { padding-block: clamp(2rem, 1.5rem + 3vw, 4rem); border-bottom: 1px solid var(--color-border); }
+  .shop-hero__row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); }
+  .shop-hero h1 { font-size: var(--text-2xl); }
+  .shop-hero__lead { margin-top: var(--space-3); font-size: var(--text-lg); max-width: 36rem; }
+  .shop-hero__index { display: flex; flex-wrap: wrap; gap: 0 var(--space-5); margin-top: var(--space-3); }
+  .shop-hero__index a { display: inline-flex; align-items: center; min-height: var(--target); font-weight: 500; }
+  .shop-hero :global(.shop-hero__art) { display: none; width: 170px; mix-blend-mode: multiply; }
+  @media (min-width: 768px) { .shop-hero :global(.shop-hero__art) { display: block; } }
+
+  .products { padding-bottom: var(--space-7); }
+  .product {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+    border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: var(--header-height);
+  }
+  .product__cover { max-width: 240px; }
+  .product__cover :global(img) { border-radius: var(--radius-sm); box-shadow: var(--shadow-raised); width: 100%; }
+  .product__body { max-width: var(--prose); }
+  .product h2 { margin-top: var(--space-2); }
+  .product__subtitle { margin-top: var(--space-2); font-size: var(--text-lg); color: var(--color-ink-soft); }
+  .product__text { margin-top: var(--space-5); }
+
+  .facts { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-block: var(--space-4); }
+  .facts li {
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-strong);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  .credits { margin-top: var(--space-4); color: var(--color-ink-soft); font-size: var(--text-sm); }
+
+  .more { margin-top: var(--space-3); }
+  .more summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target);
+    color: var(--color-link);
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+  .more summary:hover { color: var(--color-link-hover); text-decoration-thickness: 2px; }
+  .more p + p { margin-top: var(--space-3); }
+
+  .set-head { max-width: var(--prose); }
+  .set-head__text { margin-top: var(--space-4); }
+  .parts { display: grid; gap: var(--space-5); }
+  .part { border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; }
+  .part :global(.part__cover) { width: 100%; aspect-ratio: 1200 / 864; object-fit: contain; border-bottom: 1px solid var(--color-border); }
+  .part__body { padding: var(--space-5); }
+  .part__body > p { margin-bottom: var(--space-4); }
+
+  .copyright { padding-top: var(--space-5); color: var(--color-ink-soft); font-size: var(--text-sm); }
+
+  @media (min-width: 768px) {
+    .product:not(.product--set) { grid-template-columns: 300px minmax(0, 1fr); gap: var(--space-7); align-items: start; }
+    .product__cover { max-width: none; position: sticky; top: calc(var(--header-height) + var(--space-5)); }
+    .parts { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  }
+</style>

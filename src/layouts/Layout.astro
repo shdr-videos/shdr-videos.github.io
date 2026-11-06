@@ -1,0 +1,53 @@
+---
+import '@fontsource-variable/geologica/index.css';
+import '@fontsource-variable/golos-text/index.css';
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { LIVE_SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Школа двигательного развития — образовательная программа Центра лечебной педагогики о развитии движения у детей и взрослых.',
+} = Astro.props;
+
+const fullTitle = title ? `${title} — Школа двигательного развития` : 'Школа двигательного развития';
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#16233f" />
+    <title>{fullTitle}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">К основному контенту</a>
+    <aside class="preview-bar" aria-label="О превью">
+      <p class="container">Превью редизайна для согласования. Действующий сайт: <a href={LIVE_SITE}>shdr.online</a></p>
+    </aside>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <style>
+      .preview-bar {
+        background: var(--color-surface-strong);
+        color: var(--color-ink);
+        font-size: var(--text-xs);
+        line-height: 1.3;
+        padding-block: var(--space-2);
+      }
+      main:focus { outline: none; }
+    </style>
+  </body>
+</html>

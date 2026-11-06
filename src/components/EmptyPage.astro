@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+import Layout from '../layouts/Layout.astro';
+import { LIVE_SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  /** Страница на действующем сайте, если она там есть */
+  liveHref?: string;
+  /** Статьи по теме, если это страница направления */
+  postsHref?: string;
+}
+
+const { title, liveHref, postsHref } = Astro.props;
+---
+<Layout title={title}>
+  <section class="empty notebook">
+    <div class="container">
+      <h1 class="empty__title">{title}</h1>
+      <p class="empty__text">В этом превью раздел пока пуст: для согласования подготовлены главная, статьи и магазин.</p>
+      <div class="empty__actions">
+        {postsHref && <a class="btn btn--primary" href={postsHref}>Статьи по теме</a>}
+        {liveHref && (
+          <a class:list={['btn', postsHref ? 'btn--secondary' : 'btn--primary']} href={`${LIVE_SITE}${liveHref}`}>
+            Открыть на текущем сайте <Icon name="external" />
+          </a>
+        )}
+        {!postsHref && !liveHref && <a class="btn btn--primary" href="/">На главную</a>}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .empty { padding-block: clamp(4rem, 12vw, 9rem); min-height: 60vh; }
+  .empty__title { font-size: var(--text-2xl); max-width: 40rem; }
+  .empty__text { margin-top: var(--space-4); max-width: 36rem; color: var(--color-ink-soft); font-size: var(--text-lg); }
+  .empty__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+</style>

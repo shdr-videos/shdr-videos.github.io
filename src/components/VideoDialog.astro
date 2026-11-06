@@ -1,0 +1,89 @@
+---
+import Icon from './Icon.astro';
+---
+<dialog class="dialog video" id="video-dialog" aria-labelledby="video-title">
+  <div class="dialog__head">
+    <div>
+      <h2 class="dialog__title" id="video-title"></h2>
+      <p class="dialog__sub" id="video-person"></p>
+    </div>
+    <button type="button" class="icon-btn" aria-label="Закрыть видео" data-video-close><Icon name="close" /></button>
+  </div>
+  <div class="video__frame">
+    <iframe title="" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <div class="video__foot">
+    <div class="video__sources" role="group" aria-label="Где смотреть">
+      <button type="button" class="video__source" data-source="rutube" aria-pressed="true">Rutube</button>
+      <button type="button" class="video__source" data-source="youtube" aria-pressed="false">YouTube</button>
+    </div>
+    <a class="text-link" id="video-direct" href="#">Не загружается? Откройте на сайте площадки <Icon name="external" /></a>
+  </div>
+</dialog>
+
+<style>
+  .video__frame { aspect-ratio: 16 / 9; background: var(--color-ink); }
+  .video__frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+  .video__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
+  }
+  .video__sources[hidden] { display: none; }
+  .video__sources { display: inline-flex; padding: 3px; background: var(--color-surface-strong); border-radius: var(--radius-md); }
+  .video__source {
+    min-height: 38px;
+    min-width: 88px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .video__source[aria-pressed='true'] { background: var(--color-ink); color: #fff; }
+</style>
+
+<script>
+  const dialog = document.getElementById('video-dialog') as HTMLDialogElement;
+  const frame = dialog.querySelector('iframe')!;
+  const title = document.getElementById('video-title')!;
+  const person = document.getElementById('video-person')!;
+  const direct = document.getElementById('video-direct') as HTMLAnchorElement;
+  const sources = [...dialog.querySelectorAll<HTMLButtonElement>('[data-source]')];
+  const sourceGroup = dialog.querySelector<HTMLElement>('.video__sources')!;
+  let ids = { rutube: '', youtube: '' };
+
+  const urls = {
+    rutube: (id: string) => ({ embed: `https://rutube.ru/play/embed/${id}`, page: `https://rutube.ru/video/${id}/` }),
+    youtube: (id: string) => ({ embed: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`, page: `https://www.youtube.com/watch?v=${id}` }),
+  };
+
+  function show(source: 'rutube' | 'youtube') {
+    const { embed, page } = urls[source](ids[source]);
+    frame.src = embed;
+    frame.title = `${title.textContent} (${source === 'rutube' ? 'Rutube' : 'YouTube'})`;
+    direct.href = page;
+    sources.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.source === source)));
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-video]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      ids = { rutube: btn.dataset.rutube!, youtube: btn.dataset.youtube ?? '' };
+      sourceGroup.hidden = !ids.youtube;
+      title.textContent = btn.dataset.title!;
+      person.textContent = btn.dataset.person!;
+      show('rutube');
+      dialog.showModal();
+    });
+  });
+
+  sources.forEach((b) => b.addEventListener('click', () => show(b.dataset.source as 'rutube' | 'youtube')));
+  dialog.querySelector('[data-video-close]')!.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  // Выгружаем плеер при закрытии, чтобы видео не продолжало играть
+  dialog.addEventListener('close', () => frame.removeAttribute('src'));
+</script>

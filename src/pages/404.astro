@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Страница не найдена">
+  <section class="notebook not-found">
+    <div class="container">
+      <h1>Страница не найдена</h1>
+      <p>Возможно, в превью её пока нет. Начните с главной или посмотрите статьи.</p>
+      <div class="not-found__actions">
+        <a class="btn btn--primary" href="/">На главную</a>
+        <a class="btn btn--secondary" href="/posts/">Статьи</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found { padding-block: clamp(4rem, 12vw, 9rem); min-height: 60vh; }
+  .not-found h1 { font-size: var(--text-2xl); }
+  .not-found p { margin-top: var(--space-4); font-size: var(--text-lg); color: var(--color-ink-soft); }
+  .not-found__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+</style>

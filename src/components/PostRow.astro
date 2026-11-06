@@ -1,0 +1,45 @@
+---
+import { formatDate, postFilterIds, tagId, tagLabel, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+  /** Сколько меток показать в строке */
+  maxTags?: number;
+  /** Уровень заголовка зависит от структуры страницы */
+  heading?: 'h2' | 'h3';
+}
+
+const { post, maxTags = 3, heading: Heading = 'h3' } = Astro.props;
+const shownTags = post.tags.slice(0, maxTags);
+const search = [post.title, post.descr, ...post.tags.map(tagLabel)].join(' ').toLowerCase().replaceAll('ё', 'е');
+---
+<li class="post" data-topics={postFilterIds(post).join('|')} data-search={search}>
+  <time class="post__date" datetime={post.date}>{formatDate(post.date)}</time>
+  <Heading class="post__title"><a href={post.url}>{post.title}</a></Heading>
+  {post.descr && <p class="post__descr">{post.descr}</p>}
+  {shownTags.length > 0 && (
+    <ul class="post__tags" aria-label="Темы">
+      {shownTags.map((tag) => (
+        <li><a class="tag" href={`/posts/?topic=${encodeURIComponent(tagId(tag))}`} data-topic-link={tagId(tag)}>{tagLabel(tag)}</a></li>
+      ))}
+      {post.tags.length > maxTags && <li class="post__more" aria-label={`ещё ${post.tags.length - maxTags}`}>+{post.tags.length - maxTags}</li>}
+    </ul>
+  )}
+</li>
+
+<style>
+  .post {
+    position: relative;
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+  .post[hidden] { display: none; }
+  .post__date { display: block; color: var(--color-ink-soft); font-size: var(--text-xs); margin-bottom: var(--space-2); }
+  .post__title { font-size: var(--text-lg); line-height: 1.25; letter-spacing: -0.01em; text-wrap: pretty; }
+  .post__title a { color: var(--color-ink); text-decoration: none; }
+  .post__title a::after { content: ''; position: absolute; inset: 0; }
+  .post:hover .post__title a { color: var(--color-link); text-decoration: underline; text-decoration-thickness: 2px; }
+  .post__descr { margin-top: var(--space-2); color: var(--color-ink-soft); max-width: 44rem; }
+  .post__tags { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
+  .post__more { color: var(--color-ink-soft); font-size: var(--text-xs); }
+</style>
